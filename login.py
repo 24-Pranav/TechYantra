@@ -4,7 +4,7 @@ from tkinter import ttk
 from PIL import Image,ImageTk
 from tkinter import messagebox
 from register import Register
-# from main import Face_Recognition_System
+from main import Face_Recognition_System
 
 
 class Login:
@@ -13,17 +13,15 @@ class Login:
         self.root.title("Login")
         self.root.geometry("1920x1080+0+0")
 
-        print("Path to colorful.png:", "Resources/colorful.png")
-        print("Path to images.jfif:", "Resources/images.jfif")
-
         # variables 
         self.var_ssq=StringVar()
         self.var_sa=StringVar()
         self.var_pwd=StringVar()
 
+
         # Background
         img1 = Image.open("Resources/colorful.png")
-        img1 = img1.resize((1920, 1080), Image.ANTIALIAS)
+        img1 = img1.resize((1920, 1080), Image.LANCZOS)
         self.photoimg1 = ImageTk.PhotoImage(img1)
         bg_img = Label(self.root, image=self.photoimg1)
         bg_img.place(x=0, y=0, width=1920, height=1080)
@@ -33,7 +31,7 @@ class Login:
         main_frame.place(x=515, y=130, width=500, height=560)
 
         imglogo = Image.open("Resources/login.png")
-        imglogo = imglogo.resize((80, 80), Image.ANTIALIAS)
+        imglogo = imglogo.resize((80, 80), Image.LANCZOS)
         self.photoimg2 = ImageTk.PhotoImage(imglogo)
         lbl_img = Label(self.root, image=self.photoimg2)
         lbl_img.place(x=735, y=150, width=80, height=80)
@@ -53,7 +51,7 @@ class Login:
         student_label.place(x=180, y=260)
 
         # Password
-        self.txtpwd = ttk.Entry(main_frame, width=24, font=("times new roman", 20, "bold"))
+        self.txtpwd = ttk.Entry(main_frame, width=24, font=("times new roman", 20, "bold"), show="*")
         self.txtpwd.place(x=80, y=300)
 
         # login btn
@@ -85,7 +83,10 @@ class Login:
         if (self.txtuser.get()=="" or self.txtpwd.get()==""):
             messagebox.showerror("Error","All Field Required!")
         elif(self.txtuser.get()=="admin" and self.txtpwd.get()=="admin"):
-            messagebox.showinfo("Sussessfully","Welcome to Attendance Managment System Using Facial Recognition")
+            messagebox.showinfo("Sussessfully","Welcome to Student Tracking Process System")
+            self.txtuser.delete(0, END)  # Clear Username field
+            self.txtpwd.delete(0, END)
+            self.loginbtn.focus()
         else:
             # messagebox.showerror("Error","Please Check Username or Password !")
             conn = sqlite3.connect(r"database.db")
@@ -98,7 +99,10 @@ class Login:
                 open_min=messagebox.askyesno("YesNo","Access only Admin")
                 if open_min>0:
                     self.new_window=Toplevel(self.root)
-                    self.app=Face_Recognition_System(self.new_window)
+                    self.app=Face_Recognition_System(self.new_window) 
+                    self.txtuser.delete(0, END)  # Clear Username field
+                    self.txtpwd.delete(0, END)
+                    self.loginbtn.focus()
                 else:
                     if not open_min:
                         return

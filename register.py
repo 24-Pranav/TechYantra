@@ -25,13 +25,13 @@ class Register:
         #
         # baground image
         img1 = Image.open("Resources/colorful.png")
-        img1 = img1.resize((1540, 800), Image.ANTIALIAS)
+        img1 = img1.resize((1540, 800), Image.LANCZOS)
         self.photoimg1 = ImageTk.PhotoImage(img1)
         bg_img = Label(self.root, image=self.photoimg1)
         bg_img.place(x=0, y=0, width=1540, height=800)
 
         imglogo = Image.open("Resources/register.png")
-        imglogo = imglogo.resize((500, 620), Image.ANTIALIAS)
+        imglogo = imglogo.resize((500, 620), Image.LANCZOS)
         self.photoimg2 = ImageTk.PhotoImage(imglogo)
         bg_img = Label(self.root, image=self.photoimg2)
         bg_img.place(x=140, y=80, width=500, height=640)
@@ -135,6 +135,7 @@ class Register:
                     conn.commit()
                     conn.close()
                     messagebox.showinfo("Success","Successfully Registerd!",parent=self.root)
+                    
             except Exception as es:
                 messagebox.showerror("Error",f"Due to: {str(es)}",parent=self.root)
 
